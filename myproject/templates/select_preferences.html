@@ -1,0 +1,12 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Select Preferences{% endblock %}
+
+{% block content %}
+  <h2>Select Your Preferences</h2>
+  <form method="post" action="{% url 'select_preferences' %}">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <button type="submit">Save Preferences</button>
+  </form>
+{% endblock %}

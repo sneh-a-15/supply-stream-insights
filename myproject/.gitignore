@@ -1,0 +1,27 @@
+# Byte-compiled files
+*.pyc
+*.pyo
+__pycache__/
+
+# Virtual environment
+venv/
+.env
+
+# SQLite database (if any)
+db.sqlite3
+
+# Django collectstatic files
+staticfiles/
+media/
+
+# IDE files
+.idea/
+.vscode/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+#logfiles
+*.log
+celerybeat-schedule.*

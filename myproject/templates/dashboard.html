@@ -1,0 +1,104 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Dashboard{% endblock %}
+
+{% block content %}
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            display: flex;
+            height: 100vh;
+            background-color: #f4f4f4;
+        }
+        .sidebar {
+            width: 250px;
+            background-color: #333;
+            color: white;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+        }
+        .sidebar a {
+            color: white;
+            text-decoration: none;
+            padding: 10px;
+            display: block;
+            margin-bottom: 5px;
+            border-radius: 5px;
+        }
+        .sidebar a:hover {
+            background-color: #575757;
+        }
+        .main-content {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background-color: #fff;
+        }
+        .header {
+            background-color: #f8f9fa;
+            padding: 15px;
+            border-bottom: 1px solid #ddd;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .header .search-bar {
+            flex: 1;
+            margin: 0 20px;
+        }
+        .header .user-profile {
+            display: flex;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="sidebar">
+        <a href="#">Dashboard Overview</a>
+        <a href="#">Inventory Management</a>
+        <a href="#">Order Management</a>
+        <a href="#">Supplier Management</a>
+        <a href="#">Demand Forecasting</a>
+        <a href="#">Logistics & Transportation</a>
+        <a href="#">Cost Analysis</a>
+        <a href="#">Reports & Analytics</a>
+        <a href="#">Settings</a>
+    </div>
+    <div class="main-content">
+        <div class="header">
+            <div class="logo">Dashboard</div>
+            <div class="search-bar">
+                <input type="text" placeholder="Search...">
+            </div>
+            <div class="user-profile">
+                <span>User Name</span>
+                <button>Logout</button>
+            </div>
+        </div>
+        <!-- Main content area -->
+        <h2>Dashboard Overview</h2>
+        <div class="kpi-widgets">
+            <p>Total Sales: $123,456</p>
+            <p>Orders: 789</p>
+            <p>Inventory Levels: 456</p>
+        </div>
+        <div class="charts">
+            <!-- Placeholder for interactive charts and graphs -->
+            <p>Chart/Graph Area</p>
+        </div>
+        <div class="recent-activities">
+            <h3>Recent Activities</h3>
+            <p>Activity 1...</p>
+            <p>Activity 2...</p>
+            <!-- Additional recent activities -->
+        </div>
+    </div>
+</body>
+</html>
+
+{% endblock %}
