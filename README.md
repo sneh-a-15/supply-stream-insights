@@ -21,7 +21,7 @@ To run Supply Stream Insights locally, follow these steps:
 
 1. Clone the repository: git clone https://github.com/sneh-a-15/supply-stream-insights.git
 
-2. Navigate to the project directory: cd supply-stream-insights
+2. Navigate to the project directory: `cd myproject`
 
 3. Set up your environment:
 Create a .env file in the project root with the following content:
