@@ -51,6 +51,6 @@ DB_PORT=5432
 - [Spoonacular API](https://spoonacular.com/food-api)
 - [Ecommerce API](https://ecommerceapi.io/)
 
-# Troubleshooting
+## Troubleshooting
 - **Redis Connection Error:** Ensure that Redis is running and accessible at localhost:6379.
 - **Celery Task Issues:** Verify that Celery is correctly configured and running.
