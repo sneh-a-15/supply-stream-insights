@@ -3,6 +3,9 @@ from django.contrib.auth.decorators import login_required
 from app1.models import UserPreference, UserProduct, Notification, Supplier
 # from inventory.models import Supplier
 import requests, random
+from dotenv import load_dotenv
+import os
+
 
 def fetch_books_media(api_url):
     products = []
@@ -77,14 +80,19 @@ def product_list(request):
     except UserPreference.DoesNotExist:
         return render(request, 'inventory/no_preferences.html')
 
+
+    load_dotenv()
+    walmart_api_key = os.getenv('WALMART_API_KEY')
+    spoonacular_api_key = os.getenv('SPOONACULAR_API_KEY')
+
     # API Endpoints for each category
     api_endpoints = {
-        'Clothing & Apparel': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=clothing',
-        'Electronics & Gadgets': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=electronics', 
-        'Food Items': 'https://api.spoonacular.com/food/products/search?query=snacks&offset=0&number=30&apiKey=e6351a982f264e1daf124bc8a9d6e074',
-        'Home & Kitchen': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=kitchen',
+        'Clothing & Apparel': f'https://api.ecommerceapi.io/walmart_search?api_key={walmart_api_key}&url=https://www.walmart.com/search?q=clothing',
+        'Electronics & Gadgets': f'https://api.ecommerceapi.io/walmart_search?api_key={walmart_api_key}&url=https://www.walmart.com/search?q=electronics', 
+        'Food Items': f'https://api.spoonacular.com/food/products/search?query=snacks&offset=0&number=30&apiKey={spoonacular_api_key}',
+        'Home & Kitchen': f'https://api.ecommerceapi.io/walmart_search?api_key={walmart_api_key}&url=https://www.walmart.com/search?q=kitchen',
         'Books & Media': 'https://www.googleapis.com/books/v1/volumes?q=engineering&maxResults=40',
-        'Sports & Outdoor': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=sports+equipment',
+        'Sports & Outdoor': f'https://api.ecommerceapi.io/walmart_search?api_key={walmart_api_key}&url=https://www.walmart.com/search?q=sports+equipment',
     }
 
     if selected_category in api_endpoints:
