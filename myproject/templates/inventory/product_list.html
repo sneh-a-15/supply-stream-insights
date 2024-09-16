@@ -1,61 +1,58 @@
+{% extends 'base_generic.html' %}
+
+{% block title %}Product List{% endblock %}
+
+{% block content %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Product List</title>
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-        }
-        table, th, td {
-            border: 1px solid black;
-        }
-        th, td {
-            padding: 8px;
-            text-align: left;
-        }
-        th {
-            background-color: #f2f2f2;
-        }
-        img {
-            max-width: 100px;
-        }
-    </style>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet">
 </head>
-<body>
+<body class="bg-gray-200">
 
-<h1>Product List</h1>
+<div class="flex h-screen bg-gray-200">
+    <!-- Include the sidebar -->
+    {% include 'sidebar.html' %}
+    
+    <!-- Main content -->
+    <div class="flex-1 ml-64 p-8">
+        <h1 class="text-3xl font-bold mb-6">Product List</h1>
 
-{% if products %}
-    <table>
-        <thead>
-            <tr>
-                <th>Sr. No.</th>
-                <th>Product Name</th>
-                <th>Price</th>
-                <th>Stock Level</th>
-                <th>Image</th>
-            </tr>
-        </thead>
-        <tbody>
-            {% for product in products %}
-            <tr>
-                <td>{{ forloop.counter }}</td>
-                <td>{{ product.product_name }}</td>
-                <td>{{ product.price }}</td>
-                <td>{{ product.stock_level }}</td>
-                <td>
-                    <img src="{{ product.image_url }}" alt="{{ product.product_name }}">
-                </td>
-            </tr>
-            {% endfor %}
-        </tbody>
-    </table>
-{% else %}
-    <p>No products available.</p>
-{% endif %}
+        {% if products %}
+            <div class="overflow-x-auto">
+                <table class="min-w-full bg-white border border-gray-200 rounded-lg shadow-md">
+                    <thead>
+                        <tr class="border-b bg-gray-50">
+                            <th class="p-4 text-left text-gray-600 font-medium">Sr. No.</th>
+                            <th class="p-4 text-left text-gray-600 font-medium">Product Name</th>
+                            <th class="p-4 text-left text-gray-600 font-medium">Price</th>
+                            <th class="p-4 text-left text-gray-600 font-medium">Stock Level</th>
+                            <th class="p-4 text-left text-gray-600 font-medium">Image</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for product in products %}
+                            <tr class="border-b">
+                                <td class="p-4">{{ forloop.counter }}</td>
+                                <td class="p-4">{{ product.product_name }}</td>
+                                <td class="p-4">{{ product.price }}</td>
+                                <td class="p-4">{{ product.stock_level }}</td>
+                                <td class="p-4">
+                                    <img src="{{ product.image_url }}" alt="{{ product.product_name }}" class="w-24 h-24 object-cover">
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        {% else %}
+            <p class="text-gray-600">No products available.</p>
+        {% endif %}
+    </div>
+</div>
 
 </body>
 </html>
+{% endblock %}

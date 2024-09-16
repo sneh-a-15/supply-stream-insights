@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+import random
+from inventory.models import Supplier
 # Create your models here.
 
 CATEGORY_CHOICES = [
@@ -28,6 +30,20 @@ class UserProduct(models.Model):
     price = models.FloatField()
     stock_level = models.IntegerField()
     image_url = models.URLField(max_length=500, null=True, blank=True)
+    supplier = models.ForeignKey(Supplier, on_delete=models.SET_NULL, null=True, blank=True)
 
     def __str__(self):
         return f'{self.product_name} - {self.user.username}'
+    
+    def is_out_of_stock(self):
+        return self.stock_level <= 0
+    
+class Notification(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(UserProduct, on_delete=models.CASCADE)
+    message = models.CharField(max_length=255)
+    created_at = models.DateTimeField(auto_now_add=True)
+    resolved = models.BooleanField(default=False)
+
+    def __str__(self):
+        return f"Notification for {self.user.username}: {self.message}"

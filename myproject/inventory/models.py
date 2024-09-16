@@ -16,20 +16,12 @@ class Product(models.Model):
         return self.name
 
 class Supplier(models.Model):
-    id = models.IntegerField(primary_key=True)  # Match the ID field from the API
+    id = models.AutoField(primary_key=True)  # Match the ID field from the API
     name = models.CharField(max_length=255)
-    contact_info = models.TextField()  # Assuming contact info is available
+    contact_info = models.TextField()
+    category = models.CharField(max_length=255, default='abc')
     # Add other fields if necessary
 
     def __str__(self):
         return self.name
-
-class PurchaseOrder(models.Model):
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    supplier = models.ForeignKey(Supplier, on_delete=models.CASCADE)
-    quantity = models.IntegerField()
-    date_ordered = models.DateField()
-
-    def __str__(self):
-        return f"Order {self.id} - {self.product.name} from {self.supplier.name}"
 

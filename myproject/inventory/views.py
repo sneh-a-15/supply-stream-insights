@@ -1,9 +1,8 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
-from app1.models import UserPreference, UserProduct
-from django.http import JsonResponse
+from app1.models import UserPreference, UserProduct, Notification, Supplier
+# from inventory.models import Supplier
 import requests, random
-import json
 
 def fetch_books_media(api_url):
     products = []
@@ -82,7 +81,7 @@ def product_list(request):
     api_endpoints = {
         'Clothing & Apparel': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=clothing',
         'Electronics & Gadgets': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=electronics', 
-        'Food Items': 'https://api.spoonacular.com/food/products/search?query=a&offset=0&number=30&apiKey=e6351a982f264e1daf124bc8a9d6e074',
+        'Food Items': 'https://api.spoonacular.com/food/products/search?query=snacks&offset=0&number=30&apiKey=e6351a982f264e1daf124bc8a9d6e074',
         'Home & Kitchen': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=kitchen',
         'Books & Media': 'https://www.googleapis.com/books/v1/volumes?q=engineering&maxResults=40',
         'Sports & Outdoor': 'https://api.ecommerceapi.io/walmart_search?api_key=66e00017a8ec8d83dd78d4ae&url=https://www.walmart.com/search?q=sports+equipment',
@@ -102,20 +101,47 @@ def product_list(request):
     else:
         return render(request, 'inventory/no_products_found.html', {'message': 'No products found for the selected category.'})
 
-    UserProduct.objects.filter(user=request.user).delete()  # Clear previous entries
+    # Clear previous entries
+    UserProduct.objects.filter(user=request.user).delete()
+
+    # Fetch suppliers for the selected category
+    suppliers = Supplier.objects.filter(category=selected_category)
+
+    # Create new products with randomly selected suppliers
     for product in products:
         name = product.get('title', 'No title available')
         price = random.randint(400, 1000)
         stock_level = random.randint(100, 1000)
         image_url = product.get('image', '')
-        UserProduct.objects.create(
+
+        # Randomly select a supplier from the list of suppliers for this category
+        supplier = random.choice(suppliers) if suppliers.exists() else None
+
+        # Create and save the product with the selected supplier
+        user_product = UserProduct.objects.create(
             user=request.user, 
             product_name=name, 
             price=price, 
             stock_level=stock_level, 
-            image_url=image_url
+            image_url=image_url,
+            supplier=supplier,  # Assign the random supplier
+            # category=selected_category  # Assign the category to the product
         )
 
     user_products = UserProduct.objects.filter(user=request.user)
 
     return render(request, 'inventory/product_list.html', {'products': user_products})
+
+def user_notifications(request):
+    notifications = Notification.objects.filter(user=request.user, resolved=False)
+    return render(request, 'notification.html', {'notifications': notifications})
+
+def mark_notification_resolved(request, notification_id):
+    notification = get_object_or_404(Notification, id=notification_id, user=request.user)
+    notification.resolved = True
+    notification.save()
+    return redirect('user_notifications')
+
+def out_of_stock_products(request):
+    products = UserProduct.objects.filter(stock_level__lte=0)
+    return render(request, 'out_of_stock.html', {'products': products})

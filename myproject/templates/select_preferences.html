@@ -3,10 +3,14 @@
 {% block title %}Select Preferences{% endblock %}
 
 {% block content %}
-  <h2>Select Your Preferences</h2>
-  <form method="post" action="{% url 'select_preferences' %}">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <button type="submit">Save Preferences</button>
-  </form>
+<div class="flex justify-center items-center h-screen bg-gray-200">
+    <div class="w-full max-w-md bg-white p-8 rounded-lg shadow-lg">
+        <h2 class="text-2xl font-bold mb-6">Select Your Preferences</h2>
+        <form method="post" action="{% url 'select_preferences' %}">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="w-full bg-blue-500 text-white py-3 rounded-lg hover:bg-blue-600 mt-4">Save Preferences</button>
+        </form>
+    </div>
+</div>
 {% endblock %}

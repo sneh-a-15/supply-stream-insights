@@ -13,5 +13,8 @@ urlpatterns = [
     path('products/', view2.product_list, name='product_list'),  # Ensure this view exists in inventory
     path('dashboard/', view1.user_dashboard, name='user_dashboard'),
     path('preferences/', view1.select_preferences, name='select_preferences'),
-    # path('test-apis/', view2.test_apis, name='test_apis'),
+    path('notifications/', view2.user_notifications, name='user_notifications'),
+    path('notifications/mark-resolved/<int:notification_id>/', view2.mark_notification_resolved, name='mark_notification_resolved'),
+    path('out-of-stock/', view2.out_of_stock_products, name='out_of_stock_products'),
+
 ]

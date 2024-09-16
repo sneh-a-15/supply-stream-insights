@@ -1,0 +1,20 @@
+<!-- templates/out_of_stock.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Out of Stock Products</title>
+</head>
+<body class="flex h-screen bg-gray-200">
+    <!-- Include the sidebar from the separate file -->
+    {% include 'sidebar.html' %}
+<body>
+    <h1>Out of Stock Products</h1>
+    <ul>
+        {% for product in products %}
+            <li>{{ product.product_name }} - Stock level: {{ product.stock_level }}</li>
+        {% empty %}
+            <li>No products are out of stock.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
